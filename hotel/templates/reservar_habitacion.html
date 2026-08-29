@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Reservar habitación</title>
 
@@ -85,6 +89,7 @@
         }
 
     </style>
+
 </head>
 
 <body>
@@ -109,7 +114,9 @@
         {% if mensaje_error %}
 
             <div class="error">
+
                 ⚠️ {{ mensaje_error }}
+
             </div>
 
         {% endif %}
@@ -121,7 +128,9 @@
 
 
             <label for="nombre_huesped">
+
                 Nombre del huésped
+
             </label>
 
             <input
@@ -133,7 +142,9 @@
 
 
             <label for="fecha_entrada">
+
                 Fecha de entrada
+
             </label>
 
             <input
@@ -145,7 +156,9 @@
 
 
             <label for="fecha_salida">
+
                 Fecha de salida
+
             </label>
 
             <input
@@ -157,20 +170,36 @@
 
 
             <button type="submit">
+
                 Confirmar reservación
+
             </button>
 
         </form>
 
 
-        <a
-            href="{% url 'detalle_habitacion' habitacion.id %}"
-            class="volver"
-        >
-            ← Volver a la habitación
-        </a>
+        {% if habitacion and habitacion.id %}
+
+            <a
+                href="{% url 'detalle_habitacion' habitacion.id %}"
+                class="volver"
+            >
+                ← Volver a la habitación
+            </a>
+
+        {% else %}
+
+            <a
+                href="/"
+                class="volver"
+            >
+                ← Volver al inicio
+            </a>
+
+        {% endif %}
 
     </div>
 
 </body>
+
 </html>
