@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Habitación {{ habitacion.numero }}</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .contenedor {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .boton {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            text-align: center;
+            padding: 14px;
+            margin-top: 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            background: #2563eb;
+        }
+
+        .boton-liberar {
+            background: #16a34a;
+        }
+
+        .estado-disponible {
+            color: green;
+            font-weight: bold;
+        }
+
+        .estado-ocupada {
+            color: red;
+            font-weight: bold;
+        }
+
+        .volver {
+            display: block;
+            margin-top: 25px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="contenedor">
+
+        <h1>Habitación {{ habitacion.numero }}</h1>
+
+        <p>
+            <strong>Tipo:</strong>
+            {{ habitacion.tipo }}
+        </p>
+
+        <p>
+            <strong>Precio:</strong>
+            ${{ habitacion.precio }}
+        </p>
+
+
+        {% if habitacion.disponible %}
+
+            <p class="estado-disponible">
+                ● Disponible actualmente
+            </p>
+
+        {% else %}
+
+            <p class="estado-ocupada">
+                ● Ocupada actualmente
+            </p>
+
+        {% endif %}
+
+
+        <a
+            href="{% url 'reservar_habitacion' habitacion.id %}"
+            class="boton"
+        >
+            📅 Reservar habitación
+        </a>
+
+
+        {% if habitacion.disponible %}
+
+            <a
+                href="{% url 'ocupar_habitacion' habitacion.id %}"
+                class="boton"
+            >
+                Ocupar habitación ahora
+            </a>
+
+        {% else %}
+
+            <a
+                href="{% url 'liberar_habitacion' habitacion.id %}"
+                class="boton boton-liberar"
+            >
+                Liberar habitación
+            </a>
+
+        {% endif %}
+
+
+        <a href="{% url 'inicio' %}" class="volver">
+            ← Volver al panel principal
+        </a>
+
+    </div>
+
+</body>
+</html>

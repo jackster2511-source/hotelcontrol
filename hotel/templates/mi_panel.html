@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>HotelControl | Mi panel</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f3f6;
+            color: #25364a;
+        }
+
+
+        /* =========================
+           ENCABEZADO
+        ========================= */
+
+        header {
+            background: #263548;
+            color: white;
+            padding: 20px 50px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .usuario {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .usuario span {
+            font-size: 16px;
+        }
+
+        .cerrar-sesion {
+            background: white;
+            color: #263548;
+
+            padding: 10px 18px;
+
+            text-decoration: none;
+            border-radius: 8px;
+
+            font-weight: bold;
+        }
+
+        .cerrar-sesion:hover {
+            background: #e6e9ed;
+        }
+
+
+        /* =========================
+           CONTENIDO
+        ========================= */
+
+        .contenedor {
+            max-width: 1500px;
+            margin: auto;
+
+            padding: 50px 70px;
+        }
+
+        .titulo-principal {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .descripcion {
+            color: #657080;
+            font-size: 18px;
+            margin-bottom: 35px;
+        }
+
+
+        /* =========================
+           INFORMACIÓN DEL HOTEL
+        ========================= */
+
+        .hotel-info {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 15px;
+
+            margin-bottom: 35px;
+
+            box-shadow:
+                0 8px 20px
+                rgba(0, 0, 0, 0.08);
+
+        }
+
+        .hotel-info h2 {
+            margin-top: 0;
+        }
+
+        .datos-hotel {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 20px;
+
+        }
+
+        .dato {
+
+            background: #f4f6f8;
+
+            padding: 15px;
+
+            border-radius: 10px;
+
+        }
+
+        .dato strong {
+
+            display: block;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        /* =========================
+           RESUMEN
+        ========================= */
+
+        .resumen {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 25px;
+
+            margin-bottom: 45px;
+
+        }
+
+        .resumen-card {
+
+            background: white;
+
+            padding: 28px;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 8px 20px
+                rgba(0, 0, 0, 0.08);
+
+        }
+
+        .resumen-card h3 {
+
+            margin-top: 0;
+
+            font-size: 17px;
+
+            font-weight: normal;
+
+            color: #657080;
+
+        }
+
+        .numero {
+
+            font-size: 38px;
+
+            font-weight: bold;
+
+            margin: 10px 0 0 0;
+
+        }
+
+
+        /* =========================
+           BOTONES PRINCIPALES
+        ========================= */
+
+        .acciones {
+
+            display: flex;
+
+            gap: 15px;
+
+            flex-wrap: wrap;
+
+            margin-bottom: 40px;
+
+        }
+
+        .boton {
+
+            display: inline-block;
+
+            background: #3566c7;
+
+            color: white;
+
+            padding: 14px 22px;
+
+            border-radius: 9px;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+        }
+
+        .boton:hover {
+
+            background: #244d9c;
+
+        }
+
+        .boton-secundario {
+
+            background: #263548;
+
+        }
+
+        .boton-secundario:hover {
+
+            background: #182331;
+
+        }
+
+
+        /* =========================
+           HABITACIONES
+        ========================= */
+
+        .seccion-titulo {
+
+            font-size: 30px;
+
+            margin-bottom: 25px;
+
+        }
+
+        .habitaciones {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 25px;
+
+        }
+
+        .habitacion {
+
+            background: white;
+
+            border-radius: 15px;
+
+            padding: 25px;
+
+            box-shadow:
+                0 8px 20px
+                rgba(0, 0, 0, 0.08);
+
+        }
+
+        .habitacion h2 {
+
+            margin-top: 0;
+
+            font-size: 24px;
+
+        }
+
+        .tipo {
+
+            font-size: 16px;
+
+            color: #657080;
+
+        }
+
+        .precio {
+
+            font-size: 25px;
+
+            font-weight: bold;
+
+            margin: 20px 0;
+
+        }
+
+        .disponible {
+
+            color: #19733c;
+
+            font-weight: bold;
+
+        }
+
+        .ocupada {
+
+            color: #c0392b;
+
+            font-weight: bold;
+
+        }
+
+        .boton-habitacion {
+
+            display: block;
+
+            text-align: center;
+
+            background: #3566c7;
+
+            color: white;
+
+            text-decoration: none;
+
+            padding: 13px;
+
+            border-radius: 8px;
+
+            font-weight: bold;
+
+            margin-top: 20px;
+
+        }
+
+        .boton-habitacion:hover {
+
+            background: #244d9c;
+
+        }
+
+
+        /* =========================
+           SIN HABITACIONES
+        ========================= */
+
+        .sin-habitaciones {
+
+            background: white;
+
+            padding: 40px;
+
+            border-radius: 15px;
+
+            text-align: center;
+
+            box-shadow:
+                0 8px 20px
+                rgba(0, 0, 0, 0.08);
+
+        }
+
+        .sin-habitaciones h3 {
+
+            font-size: 24px;
+
+            margin-top: 0;
+
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 1100px) {
+
+            .habitaciones {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+        }
+
+
+        @media (max-width: 800px) {
+
+            .contenedor {
+
+                padding: 35px 25px;
+
+            }
+
+            header {
+
+                padding: 20px 25px;
+
+            }
+
+            .resumen {
+
+                grid-template-columns: 1fr;
+
+            }
+
+            .datos-hotel {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            header {
+
+                flex-direction: column;
+
+                gap: 15px;
+
+                align-items: flex-start;
+
+            }
+
+            .usuario {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 10px;
+
+            }
+
+            .habitaciones {
+
+                grid-template-columns: 1fr;
+
+            }
+
+            .titulo-principal {
+
+                font-size: 28px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     ENCABEZADO
+========================= -->
+
+<header>
+
+    <div class="logo">
+
+        🏨 HotelControl
+
+    </div>
+
+
+    <div class="usuario">
+
+        <span>
+
+            👤 {{ request.user.username }}
+
+        </span>
+
+
+        <a
+            href="{% url 'logout' %}"
+            class="cerrar-sesion"
+        >
+
+            Cerrar sesión
+
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================
+     CONTENIDO PRINCIPAL
+========================= -->
+
+<main class="contenedor">
+
+
+    <h1 class="titulo-principal">
+
+        Panel de {{ hotel.nombre }}
+
+    </h1>
+
+
+    <p class="descripcion">
+
+        Administra las habitaciones y reservaciones
+        de tu hotel desde un solo lugar.
+
+    </p>
+
+
+
+    <!-- =========================
+         INFORMACIÓN DEL HOTEL
+    ========================= -->
+
+    <section class="hotel-info">
+
+
+        <h2>
+
+            Información del hotel
+
+        </h2>
+
+
+        <div class="datos-hotel">
+
+
+            <div class="dato">
+
+                <strong>
+
+                    🏨 Hotel
+
+                </strong>
+
+                {{ hotel.nombre }}
+
+            </div>
+
+
+
+            <div class="dato">
+
+                <strong>
+
+                    📞 Teléfono
+
+                </strong>
+
+                {% if hotel.telefono %}
+
+                    {{ hotel.telefono }}
+
+                {% else %}
+
+                    No registrado
+
+                {% endif %}
+
+            </div>
+
+
+
+            <div class="dato">
+
+                <strong>
+
+                    📧 Correo
+
+                </strong>
+
+                {% if hotel.correo %}
+
+                    {{ hotel.correo }}
+
+                {% else %}
+
+                    No registrado
+
+                {% endif %}
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =========================
+         RESUMEN
+    ========================= -->
+
+    <section class="resumen">
+
+
+        <div class="resumen-card">
+
+            <h3>
+
+                Habitaciones disponibles
+
+            </h3>
+
+            <p class="numero">
+
+                {{ disponibles }}
+
+            </p>
+
+        </div>
+
+
+
+        <div class="resumen-card">
+
+            <h3>
+
+                Habitaciones ocupadas
+
+            </h3>
+
+            <p class="numero">
+
+                {{ ocupadas }}
+
+            </p>
+
+        </div>
+
+
+
+        <div class="resumen-card">
+
+            <h3>
+
+                Total de habitaciones
+
+            </h3>
+
+            <p class="numero">
+
+                {{ habitaciones.count }}
+
+            </p>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =========================
+         ACCIONES
+    ========================= -->
+
+    <section class="acciones">
+
+
+        <a
+            href="{% url 'agregar_habitacion' %}"
+            class="boton"
+        >
+
+            + Agregar habitación
+
+        </a>
+
+
+        <a
+            href="{% url 'calendario_reservaciones' %}"
+            class="boton boton-secundario"
+        >
+
+            📅 Ver calendario
+
+        </a>
+
+
+    </section>
+
+
+
+    <!-- =========================
+         HABITACIONES
+    ========================= -->
+
+    <h2 class="seccion-titulo">
+
+        Mis habitaciones
+
+    </h2>
+
+
+
+    {% if habitaciones %}
+
+
+        <section class="habitaciones">
+
+
+            {% for habitacion in habitaciones %}
+
+
+                <div class="habitacion">
+
+
+                    <h2>
+
+                        Habitación {{ habitacion.numero }}
+
+                    </h2>
+
+
+
+                    <p class="tipo">
+
+                        <strong>Tipo:</strong>
+
+                        {{ habitacion.tipo }}
+
+                    </p>
+
+
+
+                    <p class="precio">
+
+                        ${{ habitacion.precio }}
+
+                    </p>
+
+
+
+                    {% if habitacion.disponible %}
+
+
+                        <p class="disponible">
+
+                            ● Disponible
+
+                        </p>
+
+
+                    {% else %}
+
+
+                        <p class="ocupada">
+
+                            ● Ocupada
+
+                        </p>
+
+
+                    {% endif %}
+
+
+
+                    <a
+                        href="{% url 'detalle_habitacion' habitacion.id %}"
+                        class="boton-habitacion"
+                    >
+
+                        Ver habitación
+
+                    </a>
+
+
+                </div>
+
+
+            {% endfor %}
+
+
+        </section>
+
+
+
+    {% else %}
+
+
+        <section class="sin-habitaciones">
+
+
+            <h3>
+
+                🏨 Aún no tienes habitaciones
+
+            </h3>
+
+
+            <p>
+
+                Comienza agregando la primera habitación
+                de tu hotel.
+
+            </p>
+
+
+            <br>
+
+
+            <a
+                href="{% url 'agregar_habitacion' %}"
+                class="boton"
+            >
+
+                + Agregar mi primera habitación
+
+            </a>
+
+
+        </section>
+
+
+    {% endif %}
+
+
+</main>
+
+
+</body>
+
+</html>

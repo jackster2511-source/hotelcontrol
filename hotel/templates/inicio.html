@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HotelControl | Panel principal</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f3f6;
+            color: #25364a;
+        }
+
+        /* ENCABEZADO */
+
+        header {
+            background: #263548;
+            color: white;
+            padding: 25px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .menu {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .menu a:hover {
+            text-decoration: underline;
+        }
+
+        /* CONTENIDO */
+
+        .contenedor {
+            max-width: 1500px;
+            margin: auto;
+            padding: 60px 100px;
+        }
+
+        .titulo-principal {
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        .descripcion {
+            font-size: 18px;
+            color: #5d6875;
+            margin-bottom: 35px;
+        }
+
+        /* TARJETAS DE RESUMEN */
+
+        .resumen {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .resumen-card {
+            background: white;
+            padding: 28px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .resumen-card h3 {
+            margin-top: 0;
+            font-size: 18px;
+            font-weight: normal;
+        }
+
+        .numero {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 10px 0 0 0;
+        }
+
+        /* HABITACIONES */
+
+        .seccion-titulo {
+            font-size: 30px;
+            margin-bottom: 25px;
+        }
+
+        .habitaciones {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+
+        .habitacion {
+            background: white;
+            border-radius: 15px;
+            padding: 26px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .habitacion h2 {
+            margin-top: 0;
+            font-size: 25px;
+        }
+
+        .tipo {
+            font-size: 17px;
+        }
+
+        .precio {
+            font-size: 25px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .disponible {
+            color: #19733c;
+            font-weight: bold;
+            font-size: 17px;
+        }
+
+        .ocupada {
+            color: #c0392b;
+            font-weight: bold;
+            font-size: 17px;
+        }
+
+        .boton {
+            display: block;
+            text-align: center;
+            background: #3566c7;
+            color: white;
+            text-decoration: none;
+            padding: 15px;
+            border-radius: 9px;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .boton:hover {
+            background: #244d9c;
+        }
+
+        @media (max-width: 1000px) {
+
+            .habitaciones {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .contenedor {
+                padding: 40px;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            header {
+                padding: 20px;
+            }
+
+            .menu {
+                gap: 15px;
+            }
+
+            .resumen {
+                grid-template-columns: 1fr;
+            }
+
+            .habitaciones {
+                grid-template-columns: 1fr;
+            }
+
+            .contenedor {
+                padding: 25px;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+
+        <h1>🏨 HotelControl</h1>
+
+        <div class="menu">
+
+            <a href="{% url 'calendario_reservaciones' %}">
+                📅 Calendario
+            </a>
+
+            <a href="/admin/">
+                Panel de administración
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <main class="contenedor">
+
+        <h1 class="titulo-principal">Panel principal</h1>
+
+        <p class="descripcion">
+            Resumen general de las habitaciones del hotel.
+        </p>
+
+
+        <!-- RESUMEN -->
+
+        <section class="resumen">
+
+            <div class="resumen-card">
+                <h3>Habitaciones disponibles</h3>
+                <p class="numero">{{ disponibles }}</p>
+            </div>
+
+            <div class="resumen-card">
+                <h3>Habitaciones ocupadas</h3>
+                <p class="numero">{{ ocupadas }}</p>
+            </div>
+
+            <div class="resumen-card">
+                <h3>Sistema</h3>
+                <p class="numero">Activo ✓</p>
+            </div>
+
+        </section>
+
+
+        <!-- TODAS LAS HABITACIONES -->
+
+        <h2 class="seccion-titulo">Habitaciones</h2>
+
+        <section class="habitaciones">
+
+            {% for habitacion in habitaciones %}
+
+                <div class="habitacion">
+
+                    <h2>Habitación {{ habitacion.numero }}</h2>
+
+                    <p class="tipo">
+                        <strong>Tipo:</strong>
+                        {{ habitacion.tipo }}
+                    </p>
+
+                    <p class="precio">
+                        ${{ habitacion.precio }}
+                    </p>
+
+
+                    {% if habitacion.disponible %}
+
+                        <p class="disponible">
+                            ● Disponible
+                        </p>
+
+                    {% else %}
+
+                        <p class="ocupada">
+                            ● Ocupada
+                        </p>
+
+                    {% endif %}
+
+
+                    <a
+                        class="boton"
+                        href="{% url 'detalle_habitacion' habitacion.id %}"
+                    >
+                        Ver habitación
+                    </a>
+
+                </div>
+
+            {% empty %}
+
+                <p>No hay habitaciones registradas.</p>
+
+            {% endfor %}
+
+        </section>
+
+    </main>
+
+</body>
+</html>
