@@ -229,8 +229,6 @@ def seleccionar_hotel(request, hotel_id):
 
 
 # =========================================================
-# AGREGAR HABITACIÓN
-# =========================================================
 @login_required
 def agregar_habitacion(request):
 
@@ -245,10 +243,12 @@ def agregar_habitacion(request):
 
         return redirect('mi_panel')
 
+
     hotel = get_object_or_404(
         Hotel,
         id=hotel_id
     )
+
 
     # Seguridad para usuario normal
     if not request.user.is_superuser:
@@ -268,11 +268,13 @@ def agregar_habitacion(request):
 
             return redirect('mi_panel')
 
+
     if request.method == 'POST':
 
         numero = request.POST.get('numero')
         tipo = request.POST.get('tipo')
         precio = request.POST.get('precio')
+
 
         if not numero or not tipo or not precio:
 
@@ -283,11 +285,12 @@ def agregar_habitacion(request):
 
             return render(
                 request,
-                'reservar_habitacion.html',
+                'agregar_habitacion.html',
                 {
                     'hotel': hotel
                 }
             )
+
 
         Habitacion.objects.create(
             hotel=hotel,
@@ -297,6 +300,7 @@ def agregar_habitacion(request):
             disponible=True
         )
 
+
         messages.success(
             request,
             'Habitación agregada correctamente.'
@@ -304,15 +308,102 @@ def agregar_habitacion(request):
 
         return redirect('mi_panel')
 
+
     return render(
         request,
-        'reservar_habitacion.html',
+        'agregar_habitacion.html',
         {
             'hotel': hotel
         }
     )
+# =========================================================
+@login_required
+def agregar_habitacion(request):
+
+    hotel_id = request.session.get('hotel_id')
+
+    if not hotel_id:
+
+        messages.error(
+            request,
+            'Primero debes seleccionar un hotel.'
+        )
+
+        return redirect('mi_panel')
 
 
+    hotel = get_object_or_404(
+        Hotel,
+        id=hotel_id
+    )
+
+
+    # Seguridad para usuario normal
+    if not request.user.is_superuser:
+
+        try:
+
+            if request.user.hotel.id != hotel.id:
+
+                messages.error(
+                    request,
+                    'No tienes permiso para modificar este hotel.'
+                )
+
+                return redirect('mi_panel')
+
+        except Hotel.DoesNotExist:
+
+            return redirect('mi_panel')
+
+
+    if request.method == 'POST':
+
+        numero = request.POST.get('numero')
+        tipo = request.POST.get('tipo')
+        precio = request.POST.get('precio')
+
+
+        if not numero or not tipo or not precio:
+
+            messages.error(
+                request,
+                'Todos los campos son obligatorios.'
+            )
+
+            return render(
+                request,
+                'agregar_habitacion.html',
+                {
+                    'hotel': hotel
+                }
+            )
+
+
+        Habitacion.objects.create(
+            hotel=hotel,
+            numero=numero,
+            tipo=tipo,
+            precio=precio,
+            disponible=True
+        )
+
+
+        messages.success(
+            request,
+            'Habitación agregada correctamente.'
+        )
+
+        return redirect('mi_panel')
+
+
+    return render(
+        request,
+        'agregar_habitacion.html',
+        {
+            'hotel': hotel
+        }
+    )
 # =========================================================
 # VER DETALLE DE HABITACIÓN
 # =========================================================
